@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "selector"
+version = "0.1.0"
+description = "Selector that consumes urls from domain queues and sends them to crawlers"
+authors = ["Vlad-Sebastian Cretu <vlad.sebastian.cretu.dev@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiohttp = "^3.8.5"
+redis = "^5.0.0"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.1"
+pytest-cov = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
