@@ -1,11 +1,12 @@
+import datetime
 import unittest
 from unittest.mock import AsyncMock, patch
+
 from src.main import cleanup, process
-import datetime
 
 
 class TestCrawlerModule(unittest.IsolatedAsyncioTestCase):
-    @patch('src.main.Redis')
+    @patch('redis.asyncio.Redis')
     async def test_cleanup(self, MockRedis):
         mock_redis = MockRedis()
         mock_redis.xlen = AsyncMock(return_value=0)
@@ -18,7 +19,7 @@ class TestCrawlerModule(unittest.IsolatedAsyncioTestCase):
         mock_redis.zrem.assert_called_with("domain_heap_queue", "test_stream")
 
     @patch('src.main.aiohttp.ClientSession')
-    @patch('src.main.Redis')
+    @patch('redis.asyncio.Redis')
     @patch('src.main.asyncio.Semaphore')
     async def test_process(self, MockSemaphore, MockRedis, MockClientSession):
         mock_semaphore = MockSemaphore()

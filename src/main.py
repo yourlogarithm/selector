@@ -1,17 +1,16 @@
 import asyncio
 import datetime
-import os
 import traceback
 
 import aiohttp
 from redis import asyncio as aioredis
 
-GROUP_NAME = 'selector'
-CONSUMER_NAME = os.getenv('CONSUMER_NAME', 'selector0')
-MAX_WORKERS = os.getenv('MAX_WORKERS', 10)
+from settings import Settings
 
-CRAWLER_URL = os.getenv('CRAWLER_URL', 'http://localhost:8000')
-CRAWLER_ENDPOINT = CRAWLER_URL + '/crawl?url={}'
+settings = Settings()
+
+GROUP_NAME = 'selector'
+CRAWLER_ENDPOINT = settings.crawler_uri + '/crawl?url={}'
 
 DOMAIN_HEAP_QUEUE = 'domain_heap_queue'
 
@@ -48,9 +47,9 @@ async def process(client: aiohttp.ClientSession, redis: aioredis.Redis, semaphor
 
 async def main():
     client = aiohttp.ClientSession()
-    redis_client = await aioredis.from_url(os.getenv("REDIS_URI"))
+    redis_client = await aioredis.from_url(settings.redis_uri)
     task_queue = asyncio.Queue()
-    semaphore = asyncio.Semaphore(MAX_WORKERS)
+    semaphore = asyncio.Semaphore(settings.max_workers)
     print('Starting...')
     try:
         while True:
