@@ -11,6 +11,7 @@ python = "^3.10"
 aiohttp = "^3.8.5"
 redis = "^5.0.0"
 pydantic-settings = "^2.0.3"
+common-utils = {git = "https://github.com/yourlogarithm/common-utils.git"}
 
 
 [tool.poetry.group.test.dependencies]
